@@ -1,1 +1,4 @@
 # colourfx
+# Install
+# Usage
+# License
