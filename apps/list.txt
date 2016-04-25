@@ -1,0 +1,4 @@
+#Versions
+test - pure GLFW 
+playground - open & close window
+triangle - utilizing shaders across 3 vertices
