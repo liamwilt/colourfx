@@ -53,16 +53,48 @@ int main(int argc, char **argv)
                 glLoadIdentity();
                 glOrtho(0, width, height, 0, 0, 1);
                 glMatrixMode(GL_MODELVIEW);
+                
+                glBegin(GL_TRIANGLE_FAN);
 
-                // Draw our line
+                        glColor3f(1, 0, 0);
+
+                        // Framerate-based angle. This integer will increment per frame displayed
+                        static double iteration3 = 0;
+                        // The x, y offset onto the screen
+                        static const int xoffset3 = 169;
+                        static const int yoffset3 = 384;
+                        // The radius of both our circle and the circle it's spinning in.
+                        static const float radius3 = 60;
+
+                        // Calculate our x, y coordinates
+                        double x3 = xoffset3 + radius3 * cos(iteration3);
+                        double y3 = yoffset3 + radius3 * sin(iteration3);
+                        static double wobble3 = 0.0;
+                        
+                        y3 += sin(wobble3) * 200;
+                        wobble3 += 0.01;
+
+                        static double a3 = 128;
+                        
+                        for (double i = 0; i < 2 * M_PI; i = i + ((2 * M_PI) / a3))
+                        {
+
+                                glVertex2f(x3 + radius3 * cos(i), y3 + radius3 * sin(i));
+
+                        }
+
+                        iteration3 += 0.05;
+
+                glEnd();
+
                 glBegin(GL_TRIANGLE_FAN);
 
                         glColor3f(0, 1, 0);
 
                         // Framerate-based angle. This integer will increment per frame displayed
                         static double iteration1 = 0;
-                        // The x, y offset onto the screen -- this should later be centered
-                        static const int xoffset1 = 338;
+                        // The x, y offset onto the screen
+                        static const int xoffset1 = 512;
                         static const int yoffset1 = 384;
                         // The radius of both our circle and the circle it's spinning in.
                         static const float radius1 = 60;
@@ -88,38 +120,9 @@ int main(int argc, char **argv)
 
                 glEnd();
                 
-                glBegin(GL_TRIANGLE_FAN);
-
-                        glColor3f(0, 0, 1);
-
-                        // Framerate-based angle. This integer will increment per frame displayed
-                        static double iteration2 = 0;
-                        // The x, y offset onto the screen -- this should later be centered
-                        static const int xoffset2 = 676;
-                        static const int yoffset2 = 384;
-                        // The radius of both our circle and the circle it's spinning in.
-                        static const float radius2 = 60;
-
-                        // Calculate our x, y coordinates
-                        double x2 = xoffset2 + radius2 * cos(iteration2);
-                        double y2 = yoffset2 + radius2 * sin(iteration2);
-                        static double wobble2 = 0.0;
-                        
-                        y2 += sin(wobble2) * 200;
-                        wobble2 += 0.01;
-
-                        static double a2 = 128;
-                        
-                        for (double i = 0; i < 2 * M_PI; i = i + ((2 * M_PI) / a2))
-                        {
-
-                                glVertex2f(x2 + radius2 * cos(i), y2 + radius2 * sin(i));
-
-                        }
-
-                        iteration2 += 0.05;
-
-                glEnd();
+                
+                
+                
 
 
                 glfwSwapBuffers(w);
