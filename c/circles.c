@@ -73,25 +73,14 @@ int main(int argc, char **argv)
                         double y1 = yoffset + radius * sin(iteration);
                         static double wobble = 0.0;
                         
-                        y1 += sin(wobble) * 100;
+                        y1 += sin(wobble) * 200;
                         wobble += 0.01;
-
-                        double a = M_PI * (100 * 2);
-                        
-                        double c = 2 * M_PI * 100;
 
                         static double b = 128;
                         
                         for (double i = 0; i < 2 * M_PI; i = i + ((2 * M_PI) / b))
                         {
-                                //glVertex2f(x1 + sin(i) * M_PI, y1 + cos(i) * M_PI);
-#if 0
-                                //   var = x pos + radius * cos(angle)
-                                double x = x1 + radius * cos(i);
-                                //   var = y pos + radius * sin(angle)
-                                double y = y1 + radius * sin(i);
-                                glVertex2f(x, y);
-#endif
+
                                 glVertex2f(x1 + radius * cos(i), y1 + radius * sin(i));
 
                         }
