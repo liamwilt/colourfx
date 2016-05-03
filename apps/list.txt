@@ -2,8 +2,8 @@
 Versions
 --------
 
-test - pure GLFW 
-playground - open & close window
+test - pure GLFW, rotating triangle with RGB colours applied to each vertex
+playground - open & close an object-empty window w/dark blue background
 triangle - utilizing shaders across 3 vertices
 circles - utilizing "GL_Triangle_Fan" for the creation and shading of circle stimuli
 circles2 - creating 2 circles traveling along 2 unique paths
