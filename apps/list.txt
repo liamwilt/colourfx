@@ -10,3 +10,4 @@ circles - utilizing "GL_Triangle_Fan" for the creation and shading of circle sti
 circles2 - creating 2 circles traveling along 2 unique paths
 circles3 - creating 3 circles traveling along 3 unique paths
 circlesin - creating 3 circles, each traveling along either a sin or cosin pathway and possessing different colours and sizes
+circletrack - added cursor position acquisition and printing for x and y axes; altered cursor pointer graphic to 'pointing hand'
