@@ -136,10 +136,10 @@ int main(void)
 
                         static double iteration = 0;
                         
-                        static const int xoffset = 0;
-                        static const int yoffset = 384;
-                        
                         static const float radius = 100;
+                        
+                        int xoffset = radius - (2 * radius);
+                        int yoffset = 384;
 
                         double x1 = xoffset + radius;
                         double y1 = yoffset + radius * (sin(iteration));
