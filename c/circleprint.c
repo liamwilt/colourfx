@@ -134,90 +134,28 @@ int main(void)
 
                         glColor3f(1, 0, 0);
 
-                        static double iteration1 = 0;
+                        static double iteration = 0;
                         
-                        static const int xoffset1 = 0;
-                        static const int yoffset1 = 384;
+                        static const float radius = 100;
                         
-                        static const float radius1 = 100;
-
-                        double x1 = xoffset1 + radius1;
-                        double y1 = yoffset1 + radius1 * (2 * cos(iteration1));
+                        static const int xoffset = (radius - (2 * radius));
+                        static const int yoffset = 384;
                         
-                        static double a1 = 256;
+                        double x1 = xoffset + radius;
+                        double y1 = yoffset + radius * sin(iteration));
                         
-                        for (double i = 0; i < 2 * M_PI; i = i + ((2 * M_PI) / a1))
+                        static double a = 256;
+                        
+                        for (double i = 0; i < 2 * M_PI; i = i + ((2 * M_PI) / a))
                         {
-
-                                glVertex2f(x1 + radius1 * cos(i), y1 + radius1 * sin(i));
-
+                                glVertex2f(x1 + radius * cos(i), y1 + radius * sin(i));
                         }
 
-                        iteration1 += 0.03;
-
-                glEnd();
-                
-                glBegin(GL_TRIANGLE_FAN);
-
-                        glColor3f(0, 1, 0);
-
-                        static double iteration2 = 0;
-                        
-                        static const int xoffset2 = -512;
-                        static const int yoffset2 = 384;
-                      
-                        static const float radius2 = 60;
-                        
-                        double x2 = xoffset2 + radius2;
-                        double y2 = yoffset2 + radius2 * (4 * sin(iteration2));
-                        
-                        static double a2 = 256;
-                        
-                        for (double i = 0; i < 2 * M_PI; i = i + ((2 * M_PI) / a2))
-                        {
-
-                                glVertex2f(x2 + radius2 * cos(i), y2 + radius2 * sin(i));
-                                
-
-                        }
-
-                        iteration2 += 0.03;
-                        
-
-                glEnd();
-                
-                glBegin(GL_TRIANGLE_FAN);
-
-                        glColor3f(0, 0, 1);
-
-                        static double iteration3 = 0;
-                        
-                        static const int xoffset3 = -1024;
-                        static const int yoffset3 = 384;
-                      
-                        static const float radius3 = 30;
-                        
-                        double x3 = xoffset3 + radius3;
-                        double y3 = yoffset3 + radius3 * (10 * cos(iteration3));
-                        
-                        static double a3 = 256;
-                        
-                        for (double i = 0; i < 2 * M_PI; i = i + ((2 * M_PI) / a3))
-                        {
-
-                                glVertex2f(x3 + radius3 * cos(i), y3 + radius3 * sin(i));
-                                
-
-                        }
-
-                        iteration3 += 0.04;
-                        
+                        iteration += 0.03;
 
                 glEnd();
                 glTranslatef(1.0f,0.0f,0.0f);
                 
-
-
                 glfwSwapBuffers(w);
                 glfwPollEvents();
 
