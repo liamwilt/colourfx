@@ -81,7 +81,7 @@ int main(void)
             }
         }
 
-        w = glfwCreateWindow(1024, 768, "CircleTrack", NULL, NULL);
+        w = glfwCreateWindow(1024, 768, "CirclePrint", NULL, NULL);
         if (!w)
         {
                 glfwTerminate();
@@ -136,19 +136,21 @@ int main(void)
 
                         static double iteration = 0;
                         
-                        static const float radius = 100;
-                        
-                        static const int xoffset = (radius - (2 * radius));
+                        static const int xoffset = 0;
                         static const int yoffset = 384;
                         
+                        static const float radius = 100;
+
                         double x1 = xoffset + radius;
-                        double y1 = yoffset + radius * sin(iteration));
+                        double y1 = yoffset + radius * (sin(iteration));
                         
                         static double a = 256;
                         
                         for (double i = 0; i < 2 * M_PI; i = i + ((2 * M_PI) / a))
                         {
+
                                 glVertex2f(x1 + radius * cos(i), y1 + radius * sin(i));
+
                         }
 
                         iteration += 0.03;
@@ -156,6 +158,8 @@ int main(void)
                 glEnd();
                 glTranslatef(1.0f,0.0f,0.0f);
                 
+
+
                 glfwSwapBuffers(w);
                 glfwPollEvents();
 
