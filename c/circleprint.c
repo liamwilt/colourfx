@@ -21,6 +21,8 @@
 static double cursor_x;
 static double cursor_y;
 static int swap_interval = 1;
+static double iteration = 0;
+static double a = 256;
 static GLboolean wait_events = GL_FALSE;
 static GLboolean track_cursor = GL_FALSE;
 static GLFWcursor* standard_cursors[6];
@@ -28,23 +30,6 @@ static GLFWcursor* standard_cursors[6];
 static void error(int error, const char *desc)
 {
         fputs(desc, stderr);
-}
-
-static void cursor_position_callback(GLFWwindow* w, double x, double y)
-{
-    FILE *f = fopen("data.txt", "a");
-    if (f==NULL)
-    {
-        printf("Error opening file!\n");
-    }
-    
-    fprintf(f,"%0.3f: Cursor position: %f %f (%+f %+f)\n",
-           glfwGetTime(),
-           x, y, x - cursor_x, y - cursor_y);
-
-    cursor_x = x;
-    cursor_y = y;
-    fclose(f);
 }
 
 static void key_callback(GLFWwindow *w, int key, int scancode, int action, int mods)
@@ -89,8 +74,6 @@ int main(void)
         }
 
         glfwMakeContextCurrent(w);
-        glfwGetCursorPos(w, &cursor_x, &cursor_y);
-        glfwSetCursorPosCallback(w, cursor_position_callback);
         glfwSetCursor(w, standard_cursors[3]);
         glfwSetKeyCallback(w, key_callback);
 
@@ -99,6 +82,7 @@ int main(void)
                 int wnd_width, wnd_height, fb_width, fb_height;
                 glfwGetFramebufferSize(w, &fb_width, &fb_height);
                 
+                
 
                 if (track_cursor)
                 {
@@ -106,6 +90,7 @@ int main(void)
 
                     glfwGetWindowSize(w, &wnd_width, &wnd_height);
                     glfwGetFramebufferSize(w, &fb_width, &fb_height);
+                    glfwGetCursorPos(w, &cursor_x, &cursor_y);
 
                     scale = (float) fb_width / (float) wnd_width;
 
@@ -133,23 +118,39 @@ int main(void)
                 glBegin(GL_TRIANGLE_FAN);
 
                         glColor3f(1, 0, 0);
-
-                        static double iteration = 0;
                         
-                        static const float radius = 100;
-                        
+                        int j[5] = {100,80,60,55,50};
+                        int z = 1;
+                        float radius = j[z];
                         int xoffset = radius - (2 * radius);
                         int yoffset = 384;
-
                         double x1 = xoffset + radius;
                         double y1 = yoffset + radius * (sin(iteration));
                         
-                        static double a = 256;
-                        
+                        void cursor_position_callback(GLFWwindow* w, double x, double y)
+                        {
+                            FILE *f = fopen("data.txt", "a");
+                            
+                            if (cursor_x == (x1 + radius * cos(i)) && cursor_y == (y1 + radius * sin(i))){
+                            fprintf(f,"+++%0.3f: Cursor position: %f %f (%+f %+f)\n",
+                                   glfwGetTime(),
+                                   x, y, x - cursor_x, y - cursor_y);
+                            }
+                            else{
+                            fprintf(f,"---%0.3f: Cursor position: %f %f (%+f %+f)\n",
+                                   glfwGetTime(),
+                                   x, y, x - cursor_x, y - cursor_y);
+                            }
+                            cursor_x = x;
+                            cursor_y = y;
+                            fclose(f);
+                        }
+                                              
                         for (double i = 0; i < 2 * M_PI; i = i + ((2 * M_PI) / a))
                         {
 
                                 glVertex2f(x1 + radius * cos(i), y1 + radius * sin(i));
+                                glfwSetCursorPosCallback(w, cursor_position_callback);
 
                         }
 
