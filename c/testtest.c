@@ -34,7 +34,7 @@ void drawCircle(GLfloat x, GLfloat y, GLfloat radius){
 		for(i = 0; i <= triangleAmount;i++) { 
 			glVertex2f(
 		        x + (radius * cos(i * twicePi / triangleAmount)), 
-			    y + (radius * sin(i * twicePi / triangleAmount))
+			y + (radius * sin(i * twicePi / triangleAmount))
 			);
 		}
 	glEnd();
