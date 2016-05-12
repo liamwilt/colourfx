@@ -24,24 +24,22 @@ static void key_callback(GLFWwindow *w, int key, int scancode, int action, int m
                 glfwSetWindowShouldClose(w, GL_TRUE);
 }
 
-float drawCircle(GLfloat radius){
+float drawCircle(GLfloat x, GLfloat y, GLfloat radius){
 	static double j = 0;
-	static double triangleAmount = 360;
+	static double triangles = 360;
 	
 	glBegin(GL_TRIANGLE_FAN);
-	    float x = 0;
-	    float y = 768/2;
 	    double a = x;
         double b = y + radius * (sin(j));
 		glVertex2f(x, y); // center of circle
 		glColor3f(1, 0, 1); // color of circle
-		for (double i = 0; i < 2 * Pi; i = i + ((2 * Pi) / triangleAmount))
+		for (double i = 0; i < 2 * Pi; i = i + ((2 * Pi) / triangles))
         {
             glVertex2f(a + radius * cos(i), b + radius * sin(i));
         }
-        j += 0.01;
+        j += 0.03;
 	glEnd();
-	glTranslatef(1,0,0);
+	glTranslatef(3,0,0);
 }
 
 int main()
@@ -75,7 +73,7 @@ int main()
             glOrtho(0, width, height, 0, 0, 1);
             glMatrixMode(GL_MODELVIEW);
                            
-            drawCircle(r[0]);
+            drawCircle(0,768/2,r[0]);
 
             glfwSwapBuffers(w);
             glfwPollEvents();
