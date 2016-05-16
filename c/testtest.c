@@ -6,11 +6,23 @@
 #include <stdint.h>
 #include <math.h>
 #include <stddef.h>
-#include <GLFW/glfw3.h>
+#include <stdbool.h>
 
-#ifndef PI
-# define PI 3.141592653
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+GLFWwindow *w;
+GLFWcursor *cursor;
+GLfloat x, y, radius;
+
+#ifndef Pi
+# define Pi 3.141592653
 #endif
+
+#define GLFW_HAND_CURSOR   0x00036004
+
+double cursor_x, cursor_y;
+double pos_x, pos_y;
+int fb_width, fb_height;
 
 static void error(int error, const char *desc)
 {
@@ -23,64 +35,90 @@ static void key_callback(GLFWwindow *w, int key, int scancode, int action, int m
                 glfwSetWindowShouldClose(w, GL_TRUE);
 }
 
-void drawCircle(GLfloat x, GLfloat y, GLfloat radius){
-	int i;
-	int triangleAmount = 285;
-	
-	GLfloat twicePi = 2.0f * PI;
-	
+void writeData(GLFWwindow* w, double pos_x, double pos_y)
+{
+    FILE *f = fopen("data.txt", "a");
+                            
+    fprintf(f,"+++%0.3f: Cursor position: %f %f (%+f %+f)\n",
+           glfwGetTime(),
+           pos_x, pos_y, pos_x - cursor_x, pos_y - cursor_y);
+    
+    cursor_x = pos_x;
+    cursor_y = pos_y;
+    fclose(f);
+}
+   
+void drawCircle(float cx, float cy, float radius) 
+{ 
+    float num_segments = 360;
+	float theta = 2 * 3.1415926 / num_segments; 
+	float c = cosf(theta);//precalculate the sine and cosine
+	float s = sinf(theta);
+	float t;
+
+	float x = radius;//we start at angle = 0 
+	float y = 0; 
+    
 	glBegin(GL_TRIANGLE_FAN);
-		glVertex2f(x, y); // center of circle
-		for(i = 0; i <= triangleAmount;i++) { 
-			glVertex2f(
-		        x + (radius * cos(i * twicePi / triangleAmount)), 
-			y + (radius * sin(i * twicePi / triangleAmount))
-			);
-		}
-	glEnd();
+	glColor3f(1, 0, 1); 
+	for(int ii = 0; ii < num_segments; ii++) 
+	{ 
+		glVertex2f(x + cx, y + cy);//output vertex 
+        
+		//apply the rotation matrix
+		t = x;
+		x = c * x - s * y;
+		y = s * t + c * y;
+	} 
+	glEnd(); 
 }
 
-int main(int argc, char **argv)
+int main(void)
 {
-        GLFWwindow *w;
+        int i;
+        float e[3] = {140,120,100};
+        float m[3] = {90,80,70};
+        float h[3] = {60,50,40};
+        
         glfwSetErrorCallback(error);
-        float r[5] = {100,90,80,70,60};
-
+        
         if (!glfwInit())
-                return 1;
+            exit(EXIT_FAILURE);
 
         w = glfwCreateWindow(1024, 768, "CircleTests", NULL, NULL);
         if (!w)
         {
-                glfwTerminate();
-                return 1;
+            glfwTerminate();
+            return 1;
         }
-
-
+        
         glfwMakeContextCurrent(w);
+        cursor = glfwCreateStandardCursor(GLFW_HAND_CURSOR);        
+        glfwSetCursor(w, cursor);
+        glfwSetCursorPosCallback(w, writeData);       
         glfwSetKeyCallback(w, key_callback);
+        glfwGetFramebufferSize(w, &fb_width, &fb_height);
+           
+        do{
+            glClear(GL_COLOR_BUFFER_BIT);
+            glDisable(GL_DEPTH_TEST);
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glOrtho(0, fb_width, fb_height, 0, 0, 1);
+            glMatrixMode(GL_MODELVIEW);
+                           
+            drawCircle(1024/2,768/2,e[2]);
 
-        while (!glfwWindowShouldClose(w))
-        {
-                int width, height;
-                glfwGetFramebufferSize(w, &width, &height);
-
-                glClear(GL_COLOR_BUFFER_BIT);
-                glDisable(GL_DEPTH_TEST);
-                glMatrixMode(GL_PROJECTION);
-                glLoadIdentity();
-                glOrtho(0, width, height, 0, 0, 1);
-                glMatrixMode(GL_MODELVIEW);
-
-                drawCircle(100,100,r[0]);
-
-                glfwSwapBuffers(w);
-                glfwPollEvents();
-
-        }
-
+            glfwSwapBuffers(w);
+            glfwPollEvents();
+          }
+        while (!glfwWindowShouldClose(w));
+        
         glfwDestroyWindow(w);
+        glfwDestroyCursor(cursor);
+            
         glfwTerminate();
+        exit(EXIT_SUCCESS);
 
         return 0;
 }
