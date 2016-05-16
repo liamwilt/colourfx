@@ -1,4 +1,3 @@
-#define _BSD_SOURCE 2387423
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -12,7 +11,6 @@
 #include <GLFW/glfw3.h>
 GLFWwindow *w;
 GLFWcursor *cursor;
-GLfloat x, y, radius;
 
 #ifndef Pi
 # define Pi 3.141592653
