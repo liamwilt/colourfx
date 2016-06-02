@@ -123,7 +123,7 @@ int main( void )
         drawCircle( x, y, 0, radius, 180);
         
         glfwGetCursorPos(window, &xpos, &ypos);
-
+        //update cursor position memory when moved within window
         if (xpos != cX || ypos != cY) {
             cX = xpos;
             cY = ypos;            
