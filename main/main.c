@@ -49,8 +49,8 @@ int main( void )
     // circle position and other attribute 
     GLfloat x = SCREEN_WIDTH / 3;
     GLfloat y = SCREEN_HEIGHT / 2;
-    GLfloat xStep = 2;
-    GLfloat yStep = 2;
+    GLfloat xStep = 3;
+    GLfloat yStep = 3;
     GLfloat radius = 65.0;
     GLfloat lambda = SCREEN_HEIGHT / 4;
     
@@ -118,16 +118,16 @@ int main( void )
                 xStep *= -1;
             }
             
-            if (y + radius > 3 * SCREEN_HEIGHT / 4 
-                    || y - radius < SCREEN_HEIGHT / 4 
-                    || x + radius > SCREEN_WIDTH ||
+            if (//y + radius > 3 * SCREEN_HEIGHT / 4 
+                    //|| y - radius < SCREEN_HEIGHT / 4 
+                     x + radius > SCREEN_WIDTH ||
                     x - radius < 0.0) {
                 yStep *= -1;
             }
  
             // change position of the center, i.e. we move the circle 
             x += xStep;
-            y += yStep * sin(2 * M_PI * x / lambda) * 3;
+            y += yStep * (2 * sin(2 * M_PI * x / lambda)) * 3;
         }
 
         drawCircle( x, y, 0, radius, 36);
