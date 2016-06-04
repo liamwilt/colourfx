@@ -20,19 +20,19 @@ GLFWcursor *cursor;
 
 void drawCircle( GLfloat x, GLfloat y, GLfloat z, GLfloat radius, GLint numberOfSides );
 
+void writeData(FILE * out, GLfloat oX, GLfloat oY, GLfloat radius,
+                GLfloat cX, GLfloat cY, double timer,
+                GLfloat distance);
 /* 
  * out      -> output stream
- * oX       -> center of the circle
- * oY       -> center of the circle
+ * oX       -> center of the circle X
+ * oY       -> center of the circle Y
  * radius   -> radius of the circle 
  * cX       -> cursor position   
  * cY       -> cursor position      
  * timer    -> current time
  * distance -> distance from cursor to center of the circle 
  */
-void writeData(FILE * out, GLfloat oX, GLfloat oY, GLfloat radius,
-                GLfloat cX, GLfloat cY, double timer,
-                GLfloat distance);
 
 static void key_callback(GLFWwindow *w, int key, int scancode, int action, int mods);
 
@@ -49,8 +49,10 @@ int main( void )
     // circle position and other attribute 
     GLfloat x = SCREEN_WIDTH / 3;
     GLfloat y = SCREEN_HEIGHT / 2;
-    GLfloat step = 8;
-    GLfloat radius = 75.0;
+    GLfloat xStep = 2;
+    GLfloat yStep = 2;
+    GLfloat radius = 65.0;
+    GLfloat lambda = SCREEN_HEIGHT / 4;
     
     // time to wait before  moving the cirle 
     GLfloat sleep = 0.03;
@@ -106,21 +108,29 @@ int main( void )
         
         timer = glfwGetTime();
         
-        // whether we should movet he circle
+        // whether we should move the circle
         if (timer - last > sleep) {
             last = timer;  
             
             // edge detection  
             if (x + radius > SCREEN_WIDTH ||
                     x - radius < 0.0) {
-                step *= -1;
+                xStep *= -1;
+            }
+            
+            if (y + radius > 3 * SCREEN_HEIGHT / 4 
+                    || y - radius < SCREEN_HEIGHT / 4 
+                    || x + radius > SCREEN_WIDTH ||
+                    x - radius < 0.0) {
+                yStep *= -1;
             }
  
-            // change position of the center ; we move it horizontally 
-            x += step;
+            // change position of the center, i.e. we move the circle 
+            x += xStep;
+            y += yStep * sin(2 * M_PI * x / lambda) * 3;
         }
 
-        drawCircle( x, y, 0, radius, 180);
+        drawCircle( x, y, 0, radius, 36);
         
         glfwGetCursorPos(window, &xpos, &ypos);
         //update cursor position memory when moved within window
@@ -128,7 +138,7 @@ int main( void )
             cX = xpos;
             cY = ypos;            
             // get distance from the cursor to the  center of the circle
-            distance = sqrt((cX - x) *  (cX - x) + (cY - y) *  (cY - y));
+            distance = sqrt((cX - x) * (cX - x) + (cY - y) * (cY - y));
             // write data to the file     
             writeData(out, x, y, radius, cX, cY, timer, distance);            
         }
@@ -161,10 +171,10 @@ void writeData(FILE * out, GLfloat oX, GLfloat oY, GLfloat radius,
                 GLfloat cX, GLfloat cY, double timer,
                 GLfloat distance){
     if (distance <= radius) {
-        fprintf(out,"+++%0.3f: Cursor position: %f %f \n",
+        fprintf(out,"+++%0.3f: Cursor position: xPos:%f yPos:%f \n",
                timer, cX, cY);
     } else {
-        fprintf(out,"---%0.3f: Cursor position: %f %f \n",
+        fprintf(out,"---%0.3f: Cursor position: xPos:%f yPos:%f \n",
                timer, cX, cY);
     }
     
