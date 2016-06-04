@@ -49,8 +49,8 @@ int main( void )
     // circle position and other attribute 
     GLfloat x = SCREEN_WIDTH / 3;
     GLfloat y = SCREEN_HEIGHT / 2;
-    GLfloat xStep = 3;
-    GLfloat yStep = 3;
+    GLfloat xStep = 2;
+    GLfloat yStep = 2;
     GLfloat radius = 65.0;
     GLfloat lambda = SCREEN_HEIGHT / 4;
     
@@ -78,7 +78,7 @@ int main( void )
         return -1;
     }
     
-    window = glfwCreateWindow( SCREEN_WIDTH, SCREEN_HEIGHT, "SineSine", NULL, NULL );
+    window = glfwCreateWindow( SCREEN_WIDTH, SCREEN_HEIGHT, "fx", NULL, NULL );
     
     if ( !window )
     {
@@ -118,9 +118,9 @@ int main( void )
                 xStep *= -1;
             }
             
-            if (//y + radius > 3 * SCREEN_HEIGHT / 4 
-                    //|| y - radius < SCREEN_HEIGHT / 4 
-                     x + radius > SCREEN_WIDTH ||
+            if (//y + radius > 3 * SCREEN_HEIGHT / 4        <-- if top/bottom bounds are desired
+                    //|| y - radius < SCREEN_HEIGHT / 4     <-- if top/bottom bounds are desired
+                    x + radius > SCREEN_WIDTH ||
                     x - radius < 0.0) {
                 yStep *= -1;
             }
@@ -132,16 +132,12 @@ int main( void )
 
         drawCircle( x, y, 0, radius, 36);
         
-        glfwGetCursorPos(window, &xpos, &ypos);
         //update cursor position memory when moved within window
-        if (xpos != cX || ypos != cY) {
-            cX = xpos;
-            cY = ypos;            
-            // get distance from the cursor to the  center of the circle
-            distance = sqrt((cX - x) * (cX - x) + (cY - y) * (cY - y));
-            // write data to the file     
-            writeData(out, x, y, radius, cX, cY, timer, distance);            
-        }
+        glfwGetCursorPos(window, &xpos, &ypos);
+        cX = xpos;
+        cY = SCREEN_HEIGHT - ypos;            
+        distance = sqrt((cX - x) * (cX - x) + (cY - y) * (cY - y));    
+        writeData(out, x, y, radius, cX, cY, timer, distance);            
 
         glfwSwapBuffers( window );        
         glfwPollEvents( );
