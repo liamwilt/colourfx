@@ -24,14 +24,14 @@ void writeData(FILE * out, GLfloat oX, GLfloat oY, GLfloat radius,
                 GLfloat cX, GLfloat cY, double timer,
                 GLfloat distance);
 /* 
- * out      -> output stream
- * oX       -> center of the circle X
- * oY       -> center of the circle Y
- * radius   -> radius of the circle 
- * cX       -> cursor position   
- * cY       -> cursor position      
- * timer    -> current time
- * distance -> distance from cursor to center of the circle 
+ * out      --> output stream
+ * oX       --> center of the circle X
+ * oY       --> center of the circle Y
+ * radius   --> radius of the circle 
+ * cX       --> cursor position   
+ * cY       --> cursor position      
+ * timer    --> current time
+ * distance --> distance from cursor to center of the circle 
  */
 
 static void key_callback(GLFWwindow *w, int key, int scancode, int action, int mods);
@@ -49,8 +49,8 @@ int main( void )
     // circle position and other attribute 
     GLfloat x = SCREEN_WIDTH / 3;
     GLfloat y = SCREEN_HEIGHT / 2;
-    GLfloat xStep = 2;
-    GLfloat yStep = 2;
+    GLfloat xStep = 3;
+    GLfloat yStep = 3;
     GLfloat radius = 65.0;
     GLfloat lambda = SCREEN_HEIGHT / 4;
     
