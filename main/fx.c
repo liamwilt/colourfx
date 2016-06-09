@@ -125,14 +125,14 @@ int main( void )
                 yStep *= -1;
             }
  
-            // change position of the center, i.e. we move the circle 
+            // change position of circle-center, i.e. we move the circle 
             x += xStep;
             y += yStep * (2 * sin(2 * M_PI * x / lambda)) * 3;
         }
 
         drawCircle( x, y, 0, radius, 36);
         
-        //update cursor position memory when moved within window
+        //update cursor position
         glfwGetCursorPos(window, &xpos, &ypos);
         cX = xpos;
         cY = SCREEN_HEIGHT - ypos;            
