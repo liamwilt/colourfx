@@ -1,3 +1,0 @@
--L/usr/X11R6/lib -L/usr/local/lib -lGL -lGLU -lm -lglut -lGLEW -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXcursor -lXinerama
-
-
